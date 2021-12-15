@@ -1,25 +1,58 @@
-matriz = []
+from tabulate import tabulate
+from math import log, log10
 
 def lecturaFichero(nombreF):
 
-    global matriz
+    matrizTerminos = {}
 
     fichero = open(nombreF, 'r')
-    letras = ""; palabra = []
+    letras = ""
     linea = fichero.readline()
     
     while linea != "":
         for j in range(len(linea)):
-            if  linea[j] == " " or linea[j] == "\n": # Si hay una espacio o un salto de línea hay una nueva palabra en "letras"
+            if  linea[j] == " " or j == len(linea) - 1: # Si hay una espacio o un salto de línea hay una nueva palabra en "letras"
                 if (letras != ""):
-                    palabra.append(letras); letras = ""
+                    if letras in matrizTerminos:
+                        frecuencia = matrizTerminos[letras]
+                        matrizTerminos[letras] = frecuencia + 1
+                        matrizTerminos = dict(sorted(matrizTerminos.items(), key=lambda key: key[0]))
+                    else:
+                        matrizTerminos[letras] = 1
+                    letras = ""
             elif linea[j] != "," and linea[j] != "." and linea[j].isdigit() != True:
                 letras +=  linea[j].lower()
-            elif j == len(linea) - 1:
-                if (letras != ""): # Si se ha llegado al final del readline hay una nueva palabra en "letras"
-                    palabra.append(letras); letras = ""
             
-        matriz.append(palabra); palabra = []
         linea = fichero.readline()
 
     fichero.close()
+
+    return matrizTerminos
+
+
+def operacionesContenido(matrices, n):
+
+    matricesTerminos = []
+
+    for i in matrices:
+        matriz = []
+        for j in i:
+            palabra = j
+            frecuencia = i[palabra]
+
+            k = 0; ocurrencias = 0
+            while k < len(matrices):
+                if palabra in matrices[k]:
+                    ocurrencias += 1
+                k += 1
+            
+            tf = frecuencia
+            idf = log10(n / ocurrencias)
+            tf_idf = tf * idf
+            print(n, ocurrencias, idf, tf_idf)
+
+            matriz.append([palabra, tf, idf, tf_idf]) 
+
+        matricesTerminos.append(matriz)
+
+    return matricesTerminos
