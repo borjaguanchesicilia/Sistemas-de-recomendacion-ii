@@ -1,5 +1,5 @@
 from tabulate import tabulate
-from math import log, log10
+from math import log, log10, sqrt
 
 
 def lecturaFichero(nombreF):
@@ -13,7 +13,7 @@ def lecturaFichero(nombreF):
 
     while linea != "":
         for j in range(len(linea)):
-            if  linea[j] == " ": # Si hay una espacio o un salto de línea hay una nueva palabra en "palabra"
+            if  linea[j] == " " or linea[j] == "\n": # Si hay una espacio o un salto de línea hay una nueva palabra en "palabra"
                 if (palabra != ""):
                     
                     if palabra in documento:
@@ -30,8 +30,6 @@ def lecturaFichero(nombreF):
                     palabra = ""
             elif linea[j] != "," and linea[j] != "." and linea[j].isdigit() != True: # Si el valor del substring no es una , un . o un número agregamos la substring a la palabra
                 palabra +=  linea[j].lower()
-            elif j == len(linea) - 1:
-                break
                 
         matrizTerminos.append(documento)
         linea = fichero.readline()
@@ -78,3 +76,50 @@ def operacionesContenido(matrizTerminos, n):
         aux += 1
 
     return matricesTerminos
+
+
+def calcularSimilitud(matrizTerminos):
+
+    for i in matrizTerminos:
+        for j in range(len(i)):
+            valores = i[j]
+            i[j] = [valores[0], valores[1], valores[2], valores[3], 1 + log10(valores[1])]
+
+    longitudVector = []
+
+    for i in matrizTerminos:
+        sumatorio = 0
+        for j in range(len(i)):
+            sumatorio += pow(i[j][4], 2)
+
+        longitudVector.append(sqrt(sumatorio))
+
+
+    k = 0
+    for i in matrizTerminos:
+        longitud = longitudVector[k];
+        for j in range(len(i)):
+            valores = i[j]
+            normalizacion = (valores[4] / longitud)
+            i[j] = [valores[0], valores[1], valores[2], valores[3], valores[4], normalizacion]
+        k += 1
+
+
+    # Similaridad
+    k = 0
+    similaridad = []
+    for i in range(len(matrizTerminos)):
+        documento1 = matrizTerminos[i]
+        for j in range(len(matrizTerminos)):
+            if i != j: # Calculamos la similaridad entre todos los pares de documentos
+                documento2 = matrizTerminos[j]; sim = 0
+                for k in range(len(documento1)):
+                    for l in range(len(documento2)):
+                        if documento1[k][0] == documento2[l][0]:
+                            valor1 = documento1[k][5]; valor2 = documento2[l][5]
+                            sim += (valor1 * valor2)
+                similaridad.append((i+1, j+1, sim))
+
+
+    for i in range(len(similaridad)):
+        print(f"cos({similaridad[i][0]}, {similaridad[i][1]}) = {similaridad[i][2]}")
