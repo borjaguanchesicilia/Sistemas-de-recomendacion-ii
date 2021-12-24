@@ -121,5 +121,10 @@ def calcularSimilitud(matrizTerminos):
                 similaridad.append((i+1, j+1, sim))
 
 
+    print("Similaridad coseno entre cada par de documentos:\n\n")
+    anterior = 0
     for i in range(len(similaridad)):
+        if anterior != similaridad[i][0] and i != 0:
+            print("\n\n")
         print(f"cos({similaridad[i][0]}, {similaridad[i][1]}) = {similaridad[i][2]}")
+        anterior = similaridad[i][0]
