@@ -25,7 +25,7 @@ def inicializar():
                 print(tabulate(i, headers = headers, tablefmt="fancy_grid", showindex=True), "\n\n")
                 j += 1
 
-            calcularSimilitud(matrizTerminos)
+            similaridad(matrizTerminos)
             
 if __name__ == "__main__":
     inicializar()
