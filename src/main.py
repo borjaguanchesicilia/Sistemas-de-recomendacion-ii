@@ -4,8 +4,6 @@ from operaciones import *
 
 def inicializar():
 
-    matricesTerminosAux = []; ficheros = []
-
     try:
         nombreF = sys.argv[1]
     except:
@@ -26,6 +24,7 @@ def inicializar():
                 j += 1
 
             similaridad(matrizTerminos)
+            
             
 if __name__ == "__main__":
     inicializar()
