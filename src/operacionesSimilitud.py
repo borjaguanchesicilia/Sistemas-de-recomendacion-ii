@@ -1,4 +1,4 @@
-from math import log, log10, sqrt
+from math import log10, sqrt
 
 
 def calcularTf(matrizTerminos):
