@@ -13,7 +13,7 @@ def lecturaFichero(nombreF):
 
     while linea != "":
         for j in range(len(linea)):
-            if  linea[j] == " " or linea[j] == "\n": # Si hay una espacio o un salto de línea hay una nueva palabra en "palabra"
+            if  linea[j] == " " or linea[j] == "\n" or linea[j] == ".": # Si hay una espacio o un salto de línea hay una nueva palabra en "palabra"
                 if (palabra != ""):
                     
                     if palabra in documento:
@@ -78,8 +78,6 @@ def operacionesContenido(matrizTerminos, n):
     return matricesTerminos
 
 
-
-
 def similaridad(matrizTerminos):
 
     matrizTerminos = calcularTf(matrizTerminos)
@@ -91,7 +89,6 @@ def similaridad(matrizTerminos):
     similaridad = calcularSimilaridad(matrizTerminos)
     
 
-    print("Similaridad coseno entre cada par de documentos:\n\n")
     anterior = 0
     for i in range(len(similaridad)):
         if anterior != similaridad[i][0] and i != 0:

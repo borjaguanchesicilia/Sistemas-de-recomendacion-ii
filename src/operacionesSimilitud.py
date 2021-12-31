@@ -32,7 +32,7 @@ def calcularNormalizacion(longitudVector, matrizTerminos):
         longitud = longitudVector[k];
         for j in range(len(i)):
             valores = i[j]
-            normalizacion = (valores[1] / longitud)
+            normalizacion = (valores[4] / longitud)
             i[j] = [valores[0], valores[1], valores[2], valores[3], valores[4], normalizacion]
         k += 1
 
